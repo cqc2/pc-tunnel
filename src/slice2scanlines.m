@@ -1,5 +1,18 @@
-
 function  ScanLineArray = slice2scanlines(pointCloudData,intervalDist)
+% extract scanlines from point cloud data
+% ScanLineArray = slice2scanlines(pointCloudData,intervalDist)
+
+
+
+
+% The program is written by Chen Qichao in his period of studying in master
+% degree at Tongji University. You can redistribute or modify the program
+% for non-commercial use. Any commercial use of this program is forbidden
+% except being authorized.
+%
+% mail : mailboxchen@foxmail.com
+% Copyright (C) 2015 - 2018  Tongji University
+
 % slice point cloud data according to the maximal distance of two contiguous point
 % the result of this process will abtain each scanline
 %检测扫描线原则：一，间隔大于5米；二，在间隔图像中是顶点；三，顶点之间的点个数大于一定数量

@@ -1,14 +1,32 @@
 function [imageData,pointCloudData] = getorthoimage(pcdFilePathOrData,pxielSize,space,startA,endA,startL,endL,axis_x,brightness)
-% 生成隧道正射影像
+%generate ortho image with tunnel pointcloud data
+%
 %[imageData,samplePointArray] = getorthoimage(pcdFilePathOrData,pxielSize,space,startA,endA,startL,endL,axis_x,brightness)
 %
-% pointCloudFilePath - 隧道点云文件路径,为las格式或者xyz文本格式，不可缺省
-% pxielSize - 像素大小，默认0.01m
-% space - 点间隔，即每隔space个读取一个数据，默认为5
-% startA、endA - 生成图像的角度范围，默认30,60
-% startL、endL - 生成图像的里程范围，默认0,10000
-% axis_x - 隧道点云的前进方向，1表示x或者第一列为前进方向，2表示表示y或者第二列为前进方向，默认2
-% brightness - 亮度系数，值越大图像越明亮，默认1.3
+% INPUT:
+% pcdFilePathOrData - 隧道点云数据或者文件路径,为las格式或者xyz文本格式，不可缺省
+% pxielSize         - 像素大小，默认0.01m
+% space             - 点云数据抽稀间隔，即每隔space个读取一个数据，默认为5
+% startA、endA      - 生成图像的角度范围，默认30,60
+% startL、endL      - 生成图像的里程范围，默认0,10000
+% axis_x            - 隧道点云的前进方向，1表示x或者第一列为前进方向，2表示y或者第二列为前进方向，默认2
+% brightness        - 亮度系数，值越大图像越明亮，默认1.3
+%
+% OUTPUT:
+% pointCloudData - ortho point cloud data
+% imageData      - ortho image data
+%
+% This program is for processing odered tunnel point cloud data which is 
+% collected through single line profile scanning.Example for faro scanner.
+% 
+%
+% The program is written by Chen Qichao in his period of studying in master
+% degree at Tongji University. You can redistribute or modify the program
+% for non-commercial use. Any commercial use of this program is forbidden
+% except being authorized.
+%
+% mail : mailboxchen@foxmail.com
+% Copyright (C) 2015 - 2018  Tongji University
 
 if ~exist('pxielSize','var')||isempty(pxielSize),pxielSize = 0.01;end
 if ~exist('space','var')||isempty(space),space = 5;end
@@ -29,18 +47,22 @@ elseif row==1
         A = LASreadAll(pcdFilePathOrData);
         pointCloudData=[A.x,A.y,A.z,A.intensity];
         savepointcloud2file(pointCloudData,filename,false);
-    elseif(filetype=='.xyz')
+    elseif(filetype=='.xyz')|(filetype=='.txt')
         fid=fopen(pcdFilePathOrData,'r');
         pointCloudData = readpointcloudfile2(pcdFilePathOrData);%读取全部点
     %     pointCloudData =  readpointcloudfile(fid,100000);%读取指定个数点
     else
+        error('pcdFilePathOrData is not a correct path!');
         return;
     end
 else 
     return;
 end
-%   ScanLineArray = slice2scanlines(pointCloudData(1:space:end,:),1);%按点相邻点间距提取扫描线,sick
-    ScanLineArray = getscanline_faro(pointCloudData(1:space:end,:),axis_x);%按轴变动提取扫描线,faro
+
+   ScanLineArray = getscanline_faro(pointCloudData(1:space:end,:),axis_x);%按轴变动提取扫描线,faro
+
+  % ScanLineArray = slice2scanlines(pointCloudData(1:space:end,:),1);%按点相邻点间距提取扫描线,sick
+
     samplePointArray = getsamplepoint(ScanLineArray,startA,endA,startL,endL);%样本区域
     pointCloudData = pointArray2Point(samplePointArray);
 %     savepointcloud2file(pointCloudData,filename,false);%存储展开的点云

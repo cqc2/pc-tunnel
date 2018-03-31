@@ -1,25 +1,45 @@
-%--------------------------------------------------------------------------
-%Random Sample Consensus
-%Author£ºQichao Chen
-%Date:20170317
-%--------------------------------------------------------------------------
-
-
 function  [coefficients,percet] = ransac(pointData,shapeType,deviation)
 %Random Sample Consensus
-%shapeType±íÊ¾ÄâºÏµÄÀàÐÍ£¬Èç¶àÏîÊ½¡¢Ô²¡¢Æ½ÃæµÈ
+% [coefficients,percet] = ransac(pointData,shapeType,deviation)
+%
+% INPUT:
+% pointData - data to fit
+% shapeType - type of fitting,1 for staight line,2 for quadratic curve,3 for
+%             cubic curve,'plane' for plane fitting,'circle' for circle 
+%             fitting,'ellipse' for ellipse fitting
+% deviation - permited distance difference between inlier points and fitted
+%             model
+%
+% OUTPUT:
+% coefficients - fitted model's coefficients
+% percet       - proportion of inlier points 
+%
+% References : Fischler, M.A. and Bolles, R.C. Random Sample Consensus: A
+%              Paradigm for Model Fitting with Applications to Image
+%              Analysis and Automated Cartography. Communications of the 
+%              ACM , 24(6): 381¨C395, 1981.
+%
+% The program is written by Chen Qichao in his period of studying in master
+% degree at Tongji University. You can redistribute or modify the program
+% for non-commercial use. Any commercial use of this program is forbidden
+% except being authorized.
+%
+% mail : mailboxchen@foxmail.com
+% Copyright (C) 2015 - 2018  Tongji University
+
 permitIterations = 100;
-% deviation = 0.3;
+if ~exist('deviation','var')||isempty(deviation)||deviation==0
+    warning('deviation is set to 0.3,it may not suitable for your data.');
+    deviation = 0.3;
+end
+
 nPoint = size(pointData,1);
 
-% temp = [pointData(1:10,:);pointData(floor(nPoint/2)-10:floor(nPoint/2),:);pointData(nPoint-10:nPoint,:)];
-% pointData = temp;
-% nPoint = 32;
 nSatisfiedPoint = 0;
 mostSatisfiedPoint = 0;
 iterations = 0;
 coefficients = [];
-while nSatisfiedPoint < nPoint*2/3 &&  iterations<permitIterations,      %ÓÐ2/3µÄÊý¾Ý·ûºÏÄâºÏÄ£ÐÍ»ò´ïµ½×î´óµü´ú´ÎÊý¾Í¿ÉÒÔÍË³öÁË
+while nSatisfiedPoint < nPoint*2/3 &&  iterations<permitIterations    %ÓÐ2/3µÄÊý¾Ý·ûºÏÄâºÏÄ£ÐÍ»ò´ïµ½×î´óµü´ú´ÎÊý¾Í¿ÉÒÔÍË³öÁË
     switch shapeType
         case 1
             [nSatisfiedPoint,coefficients]=  ransacline(pointData,deviation);%Ò»´Î¶þÎ¬ÇúÏß
@@ -34,23 +54,23 @@ while nSatisfiedPoint < nPoint*2/3 &&  iterations<permitIterations,      %ÓÐ2/3µ
         otherwise
             return;
     end
-    if nSatisfiedPoint>mostSatisfiedPoint,            %ÕÒµ½·ûºÏÄâºÏÖ±ÏßÊý¾Ý×î¶àµÄÄâºÏÖ±Ïß
+    if nSatisfiedPoint>mostSatisfiedPoint           %ÕÒµ½·ûºÏÄâºÏÖ±ÏßÊý¾Ý×î¶àµÄÄâºÏÖ±Ïß
         mostSatisfiedPoint = nSatisfiedPoint;
         bestCoefficients=coefficients;          %ÕÒµ½×îºÃµÄÄâºÏÖ±Ïß
     end  
     iterations=iterations+1;
 end
  percet = mostSatisfiedPoint/nPoint;%·ûºÏÄâºÏ²ÎÊýµÄµã±ÈÀý
-if mostSatisfiedPoint~=0,
+if mostSatisfiedPoint~=0
     coefficients = bestCoefficients;
 else
     %µü´ú²»ÊÕÁ²
     return;
 end
 % coefficients=polyfit(pointData(:,1),pointData(:,2),2); %ÆÕÍ¨×îÐ¡¶ø³ÉÄâºÏ
-%     drawresult(pointData,shapeType,coefficients);
+% drawresult(pointData,shapeType,coefficients);
 end
-
+%----------------------------------------------
 function drawresult(pointData,shapeType,coefficients)
 %ÏÔÊ¾·ûºÏ×î¼ÑÄâºÏµÄÊý¾Ý
 nPoint = size(pointData,1);
@@ -316,7 +336,7 @@ function index = getsampleindex(nPoint,nSample)
                 break;
             end
         end
-        if isSave,
+        if isSave
             iSample = iSample+1;
             index(iSample,1) = rand0;
         end

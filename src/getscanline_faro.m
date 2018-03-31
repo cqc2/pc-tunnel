@@ -1,6 +1,17 @@
 function ScanLineArray = getscanline_faro(pointCloudData,axis_x)
+%extract scanlines from tunnel pointcloud data coleected by faro scanner
+% ScanLineArray = getscanline_faro(pointCloudData,axis_x)
 %
+% The program is written by Chen Qichao in his period of studying in master
+% degree at Tongji University. You can redistribute or modify the program
+% for non-commercial use. Any commercial use of this program is forbidden
+% except being authorized.
+%
+% mail : mailboxchen@foxmail.com
+% Copyright (C) 2015 - 2018  Tongji University
+
 %认为同一条扫描线x坐标不变化，以x来提取扫描线,适合Faro扫描的数据
+
 x = pointCloudData(:,axis_x);
 axis_y=2;
 if(axis_x==2)
@@ -22,7 +33,7 @@ for iPoint = 1:nPoint,
 end
 PointSet= struct('x',0,'y',0,'h',0,'ins',0);
 ScanLineArray=repmat(PointSet,[1 nScanline]);
-for iScanline = 1:nScanline,
+for iScanline = 1:nScanline
     startIndex = scanLineIndex(iScanline,1);
     endIndex = scanLineIndex(iScanline,2);
     ScanLineArray(iScanline).x = pointCloudData(startIndex:endIndex,axis_x);
