@@ -1,4 +1,16 @@
 function imageData = convertpointcloud2img(pointCloudData,pxielSize)
+%
+%imageData = convertpointcloud2img(pointCloudData,pxielSize)
+%
+% The program is written by Chen Qichao in his period of studying in master
+% degree at Tongji University. You can redistribute or modify the program
+% for non-commercial use. Any commercial use of this program is forbidden
+% except being authorized.
+%
+% mail : mailboxchen@foxmail.com
+% Copyright (C) 2015 - 2018  Tongji University
+
+
 datetime('now','TimeZone','local','Format','HH:mm:ss Z')
 %     pointCloudFilePath = 'circle_30d60d_All.xyz';
 %     pointCloudData = readpointcloudfile2(pointCloudFilePath);

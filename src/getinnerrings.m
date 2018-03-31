@@ -1,5 +1,15 @@
 function getinnerrings(pcdFilePathOrData)
+% extract latitude seam of tunnel from point cloud
+% getinnerrings(pcdFilePathOrData)
 %
+%
+% The program is written by Chen Qichao in his period of studying in master
+% degree at Tongji University. You can redistribute or modify the program
+% for non-commercial use. Any commercial use of this program is forbidden
+% except being authorized.
+%
+% mail : mailboxchen@foxmail.com
+% Copyright (C) 2015 - 2018  Tongji University
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 判断输入的是文件路径还是点云矩阵
