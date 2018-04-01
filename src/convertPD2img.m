@@ -1,5 +1,5 @@
 function [imageData,gridArray] = convertPD2img(pointData,pxielSize,radius,isRotate)
-% convert pointcloud data into raster intensity image£¬a substitutor for convertpointcloud2img
+% convert pointcloud data into raster intensity image£¬a substitutor of convertpointcloud2img
 % [imageData,gridArray] = convertPD2img(pointData,pxielSize,radius,isRotate)
 %
 % arguments: (input)

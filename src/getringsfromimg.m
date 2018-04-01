@@ -1,19 +1,32 @@
 function [rings_locs,rings_wdith,rings_num]=getringsfromimg(I)
-% 计算环片数目和坐标
-% I - 环片栅格图像
+% calculate the number and positon of tunnel rings
+% [rings_locs,rings_wdith,rings_num]=getringsfromimg(I)
+%
+% INPUT:
+% I - intensity orthoimage of tunnel
 %
 % OUTPUT：
-% rings_locs - 环缝位置对应像素横坐标
+% rings_locs  - 环缝位置对应像素横坐标
 % rings_wdith - 包括两列，第一列为环片像素宽度，第二列为标记量，0表示正常，1表
 %               示对应环缝附近可能有错检或者漏检
-% rings_num - 检测出的环缝个数
+% rings_num   - 检测出的环缝个数
+
+%
+% The program is written by Chen Qichao in his period of studying in master
+% degree at Tongji University. You can redistribute or modify the program
+% for non-commercial use. Any commercial use of this program is forbidden
+% except being authorized.
+%
+% mail : mailboxchen@foxmail.com
+% Copyright (C) 2015 - 2018  Tongji University
+
 
 I = im2double(I);
 [H1,H2] = gradienthist(I);
 data=H2;%使用H2检测效果较好
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 顶点检测参数
+% 顶点检测参数/peak detect parameters
 Fs =1; %采样频率
 MinPeakProminence = max(data)/1; %峰最小突起幅度门限
 threshold = 0; %峰值点与邻近点比较门限
@@ -27,7 +40,7 @@ WidthReference = 'halfprom';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%确定MinPeakDistance
+% get MinPeakDistance
 [pks,locs,w,p] = ...
     findpeaks(data,Fs,'MinPeakProminence',MinPeakProminence, ...
 'threshold',threshold,'MinPeakHeight',MinPeakHeight, ...
