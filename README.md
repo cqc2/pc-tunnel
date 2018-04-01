@@ -27,7 +27,7 @@ The las file is also accepted,though the text file is preferable. If your data i
 ### getinnerrings(pcdFilePathOrData)<br>
 ![](https://github.com/cqc2/pc-tunnel/blob/master/example/tunnel_joint_seam-latitude.jpg) 
 
-
+# About
 The program is written by Chen Qichao in his period of studying in master degree at Tongji University. You can redistribute or modify the program for non-commercial use. Any commercial use of this program is forbidden except being authorized.<br>
 
 ## Any question about this project, please feel free to contact me
