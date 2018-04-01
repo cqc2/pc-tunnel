@@ -1,6 +1,6 @@
 # pc-tunnel
 This project is used for processing pointcould data of tunnel. It contains the most common methods which you can modify for individual needs. All code was tested in MATLAB2017a. <br>
-Befour using the program， you should make sure that the input textfile or data is the format of X Y Z I，where  X Y Z is the coordinate and I is the intensity of pointcloud ，like this：<br>
+Befour using the program， you should make sure that the input textfile or data is the format of X Y Z I, where  X Y Z is the coordinate and I is the intensity of pointcloud , like this：<br>
 
 0.0000 27455.0000 4.0600 139<br>
 0.0000 27455.0000 4.0600 137<br>
@@ -9,7 +9,7 @@ Befour using the program， you should make sure that the input textfile or data
 0.0100 27455.0000 4.0500 129<br>
 0.0100 27455.0000 4.0500 129<br>
 
-The las file is also accepted,though the text file is preferable. If your data is the other types, you should transform the data first. Here list the main funciotns of project, datail specification can be seen in source code.
+The las file is also accepted, though the text file is preferable. If your data is the other types, you should transform the data first. Here list the main funciotns of project, datail specification can be seen in source code.
 
 # The project includes:<br>
 ## 1. Gennerating orthoimage of tunnel wall
