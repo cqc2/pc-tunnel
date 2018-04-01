@@ -3,6 +3,7 @@ This project is used for processing pointcould data of tunnel. It contains the m
 
 ## Gennerating orthoimage of tunnel wall
 getorthoimage<br>
+![](https://github.com/cqc2/pc-tunnel/blob/master/example/3D-pointcloud.png) 
 ![](https://github.com/cqc2/pc-tunnel/blob/master/example/orthoimage.png) 
 
 
