@@ -41,6 +41,8 @@ iterations = 0;
 coefficients = [];
 while nSatisfiedPoint < nPoint*2/3 &&  iterations<permitIterations    %有2/3的数据符合拟合模型或达到最大迭代次数就可以退出了
     switch shapeType
+        case 0
+            [nSatisfiedPoint,coefficients]=  ransacline0(pointData,deviation);%垂直线条
         case 1
             [nSatisfiedPoint,coefficients]=  ransacline(pointData,deviation);%一次二维曲线
         case 2
@@ -129,7 +131,17 @@ nPoint = size(pointData,1);
         axis equal
     end
 end
-
+function [nSatisfiedPoint ,coefficients]=  ransacline0(pointData,deviation)  
+%vertical line
+    nPoint = size(pointData,1);
+    x = pointData(:,1);
+    SampIndex=floor(1+(nPoint-1)*rand(1,1));  %产生两个随机索引，找样本用，floor向下取整
+    samp(1,:)=pointData(SampIndex(1),1:2);      %对原数据随机抽样1个样本
+    X = samp(:,1);
+    coefficients = X;
+   idx = find(abs(x-X)<deviation);
+    nSatisfiedPoint = size(idx,1);
+end
 function [nSatisfiedPoint ,coefficients]=  ransacline(pointData,deviation)  
 %line
     nPoint = size(pointData,1);

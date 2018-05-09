@@ -16,6 +16,15 @@ function pointCloudData = readpointcloudfile2(pointCloudFilePath,divisionStr)
 % mail : mailboxchen@foxmail.com
 % Copyright (C) 2015 - 2018  Tongji University
 
+
+[~,~,filetype]=fileparts(pointCloudFilePath);
+if(filetype=='.las')
+    A = LASreadAll(pointCloudFilePath);
+    pointCloudData=[A.x,A.y,A.z,A.intensity];
+    return;
+end
+    
+
 fid=fopen(pointCloudFilePath,'r');
 tline=fgetl(fid);   %执行完后文件指针已经指向第二行
 fclose(fid);

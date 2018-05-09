@@ -5,6 +5,12 @@ flag = 0;
 width = size(I,2);
 lines1 = gettopringfromimg(I,-85,-75);
 lines2 = gettopringfromimg(I,75,85);
+
+if isempty(lines1)||isempty(lines2)
+    return ;
+end
+flag = 1;
+
 v1 = lines1.point1-lines1.point2;
 v2 = lines2.point1-lines2.point2;
 k1 = v1(2)./v1(1);
@@ -43,6 +49,7 @@ end
 function lines = gettopringfromimg(I,sA,eA)
 %
 %ÕºœÒ‘§¥¶¿Ì
+imshow(I);
 Ivl = im2double(I);
 Iedge=edge(Ivl,'canny',0.05);
 Iedge = imdilate(Iedge,ones(2));

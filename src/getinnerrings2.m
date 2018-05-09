@@ -1,15 +1,13 @@
-function getinnerrings(pcdFilePathOrData)
+function getinnerrings2(pcdFilePathOrData)
 % extract latitude seam of tunnel from point cloud
 % getinnerrings(pcdFilePathOrData)
 %
+% 
+% Reference:
+% 李家平,卢中贺.基于盾构隧道激光扫描点云的收敛直径定点计算方法[J].工程勘察,2016,44(12):52-55+64.
 %
-% The program is written by Chen Qichao in his period of studying in master
-% degree at Tongji University. You can redistribute or modify the program
-% for non-commercial use. Any commercial use of this program is forbidden
-% except being authorized.
-%
+% The program is written by Chen Qichao.
 % mail : mailboxchen@foxmail.com
-% Copyright (C) 2015 - 2018  Tongji University
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 判断输入的是文件路径还是点云矩阵
@@ -37,7 +35,6 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 检测纵向环片接缝
 [imageData,PCD] = getorthoimage(pointCloudData,0.01,5,80,110);
-imshow(imageData);
 initialX = PCD(1,1);%左上角第一个像素的起始里程
 [rings_locs,rings_wdith,rings_num]=getringsfromimg(imageData);
 rings_locs = rings_locs*0.01+initialX;
@@ -78,11 +75,9 @@ ringscanlineiIdx = [0,ringscanlineiIdx];
 for i=1:size(ringspointArray,2)
     % 封顶块所在位置影像
     [imageData,PCD] = getorthoimage(ringspointArray{i},0.01,5,135,245,[],[],1);
+    
     % 识别封顶块
     [lines1,lines2,flag] = gettopring(imageData);
-    if ~flag
-        continue;
-    end
     midA = 135+(245-135)/size(imageData,1)*(lines1.point1(2)+lines2.point1(2))/2;%封顶块中间位置角度
     
     %提取出内环片点云

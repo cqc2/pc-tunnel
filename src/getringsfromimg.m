@@ -20,18 +20,22 @@ function [rings_locs,rings_wdith,rings_num]=getringsfromimg(I)
 % mail : mailboxchen@foxmail.com
 % Copyright (C) 2015 - 2018  Tongji University
 
-
+I = importdata('orthoimage.bmp');
+I = I.cdata;
 I = im2double(I);
+I = I(15:end-10,:);
+% I = I(1:end/2,:);
+I = I(end/4:end,:);
 [H1,H2] = gradienthist(I);
 data=H2;%使用H2检测效果较好
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 顶点检测参数/peak detect parameters
-Fs =1; %采样频率
+Fs = 1; %采样频率
 MinPeakProminence = max(data)/1; %峰最小突起幅度门限
 threshold = 0; %峰值点与邻近点比较门限
 MinPeakHeight = max(data)/5; %最小峰高度门限
-MinPeakDistance = 40/Fs; %最小峰间距门限，大概值
+MinPeakDistance = 50/Fs; %最小峰间距门限，大概值
 nPeaks = 90000; %最多找nPeaks个峰
 sortstr = 'none'; %结果排序
 Annotate = 'extents'; 
@@ -103,7 +107,7 @@ while(pren~=nextn)
 end
 m_wdith = ceil(mean(tmp));
 rings_wdith = [ring_wdith,zeros(size(ring_wdith,1),1)];
-rings_wdith(abs(ring_wdith(2:end-1,1)-m_wdith)>10*derta_tmp,2) = 1;%标记可能的漏检、错检异常值
+rings_wdith(abs(ring_wdith(2:end-1,1)-m_wdith)>5*derta_tmp,2) = 1;%标记可能的漏检、错检异常值
 
 %环缝位置写入图像
 position = [];
